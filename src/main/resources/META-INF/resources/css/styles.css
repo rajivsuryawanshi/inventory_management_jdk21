@@ -1,0 +1,114 @@
+/* Reset some default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body and background */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container for the login form */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* The login box style */
+.login-box {
+    background: #fff;
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Login heading */
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Input fields */
+.textbox {
+    margin: 15px 0;
+}
+
+.textbox input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.textbox input:focus {
+    border-color: #0066cc;
+    outline: none;
+}
+
+/* Remember me checkbox */
+.remember-me {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+/* Login button */
+.btn-login {
+    width: 100%;
+    padding: 15px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    background-color: #005bb5;
+}
+
+/* Forgot Password link */
+.forgot-password {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.forgot-password a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive design */
+@media screen and (max-width: 480px) {
+    .login-box {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .textbox input {
+        font-size: 14px;
+    }
+
+    .btn-login {
+        font-size: 14px;
+    }
+}
