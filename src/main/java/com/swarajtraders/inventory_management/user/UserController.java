@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.swarajtraders.inventory_management.service.UserService;
 import com.swarajtraders.inventory_management.user.entity.User;
+import com.swarajtraders.inventory_management.user.service.UserService;
 
 @RestController
 public class UserController {

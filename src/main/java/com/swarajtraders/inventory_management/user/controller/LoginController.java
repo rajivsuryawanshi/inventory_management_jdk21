@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.swarajtraders.inventory_management.user.entity.User;
 import com.swarajtraders.inventory_management.user.repository.UserRepository;
-import com.swarajtraders.inventory_management.user.service.AuthenticationService;
+import com.swarajtraders.inventory_management.user.service.UserService;
 
 @Controller
 @SessionAttributes("user")
 public class LoginController {
 
-	private AuthenticationService authenticationService;
+	private UserService authenticationService;
 	@Autowired
 	private UserRepository userRepository;
 
-	public LoginController(AuthenticationService authenticationService) {
+	public LoginController(UserService authenticationService) {
 		super();
 		this.authenticationService = authenticationService;
 	}
