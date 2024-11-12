@@ -1,4 +1,4 @@
-package com.swarajtraders.inventory_management.login;
+package com.swarajtraders.inventory_management.user.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.swarajtraders.inventory_management.entity.User;
-import com.swarajtraders.inventory_management.repository.UserRepository;
+import com.swarajtraders.inventory_management.user.entity.User;
+import com.swarajtraders.inventory_management.user.repository.UserRepository;
+import com.swarajtraders.inventory_management.user.service.AuthenticationService;
 
 @Controller
 @SessionAttributes("user")

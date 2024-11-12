@@ -1,14 +1,14 @@
-package com.swarajtraders.inventory_management.party;
+package com.swarajtraders.inventory_management.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.swarajtraders.inventory_management.entity.User;
-import com.swarajtraders.inventory_management.repository.UserRepository;
+import com.swarajtraders.inventory_management.user.entity.User;
+import com.swarajtraders.inventory_management.user.repository.UserRepository;
 import com.swarajtraders.inventory_management.util.InventoryUtil;
 
 @Service
-public class PartyService {
+public class AuthenticationService {
 
 	@Autowired
 	private UserRepository userRepository;

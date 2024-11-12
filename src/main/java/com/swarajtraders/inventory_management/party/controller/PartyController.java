@@ -1,4 +1,4 @@
-package com.swarajtraders.inventory_management.party;
+package com.swarajtraders.inventory_management.party.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.swarajtraders.inventory_management.entity.Party;
-import com.swarajtraders.inventory_management.repository.PartyRepository;
+import com.swarajtraders.inventory_management.party.entity.Party;
+import com.swarajtraders.inventory_management.party.repository.PartyRepository;
 
 import jakarta.validation.Valid;
 

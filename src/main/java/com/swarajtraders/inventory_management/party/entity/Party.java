@@ -1,4 +1,4 @@
-package com.swarajtraders.inventory_management.entity;
+package com.swarajtraders.inventory_management.party.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
