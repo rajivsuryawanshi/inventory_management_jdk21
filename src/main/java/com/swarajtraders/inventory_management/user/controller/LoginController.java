@@ -29,6 +29,12 @@ public class LoginController {
 	public String renderLoginPage() {
 		return "login";
 	}
+	
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(ModelMap model) {
+		model.put("errorMessage", "Logged out successfully");
+		return "login";
+	}
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String gotoWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model) {
@@ -42,6 +48,8 @@ public class LoginController {
 		model.put("errorMessage", "Wrong UserName or Password");
 		return "login";
 	}
+	
+	
 	
 	// This will show the main dashboard after successful login
 	@RequestMapping("/dashboard")

@@ -1,114 +1,90 @@
-/* Reset some default styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body and background */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
 }
 
-/* Container for the login form */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
+/* Styling for the Navigation Bar */
+.navbar {
+    background-color: #007bff; /* Blue background color */
+    padding: 10px 20px; /* Some padding for better spacing */
+    text-align: right; /* Align the links to the right */
+    position: fixed; /* Make the navbar fixed at the top */
+    width: 100%; /* Ensure the navbar spans the full width */
+    top: 0; /* Stick it to the top of the page */
+    z-index: 1000; /* Make sure it stays on top of other content */
 }
 
-/* The login box style */
-.login-box {
-    background: #fff;
-    padding: 40px;
-    width: 100%;
-    max-width: 400px;
+/* Link styles within the navbar */
+.navbar a {
+    color: white; /* Text color for the links */
+    text-decoration: none; /* Remove underline */
+    font-weight: bold; /* Make the text bold */
+    margin-left: 20px; /* Space between the links */
+    padding: 10px 15px; /* Some padding around the links */
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s ease;
+    /* Smooth transition for hover effect */
+}
+
+/* Hover effect on links */
+.navbar a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    text-decoration: underline; /* Underline the text on hover */
+}
+
+/* Specific styling for the active link or button */
+.navbar a.active {
+    background-color: #0056b3; /* Highlight active link */
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 50px;
 }
 
-/* Login heading */
-.login-box h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
+h1 {
+    color: #007bff;
+    font-weight: 700;
 }
 
-/* Input fields */
-.textbox {
-    margin: 15px 0;
+h3 {
+    color: #343a40;
+    font-weight: 500;
 }
 
-.textbox input {
-    width: 100%;
-    padding: 15px;
-    margin: 10px 0;
+.list-group-item {
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.textbox input:focus {
-    border-color: #0066cc;
-    outline: none;
-}
-
-/* Remember me checkbox */
-.remember-me {
-    margin: 10px 0;
-    font-size: 14px;
-}
-
-/* Login button */
-.btn-login {
-    width: 100%;
-    padding: 15px;
-    background-color: #0066cc;
+.list-group-item:hover {
+    background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
     cursor: pointer;
 }
 
-.btn-login:hover {
-    background-color: #005bb5;
+.list-group-item:active {
+    background-color: #0056b3;
+    color: white;
 }
 
-/* Forgot Password link */
-.forgot-password {
-    margin-top: 15px;
-    font-size: 14px;
+.list-group-item:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
 }
 
-.forgot-password a {
-    color: #0066cc;
-    text-decoration: none;
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
-.forgot-password a:hover {
-    text-decoration: underline;
-}
-
-/* Responsive design */
-@media screen and (max-width: 480px) {
-    .login-box {
-        width: 90%;
-        padding: 30px;
-    }
-
-    .textbox input {
-        font-size: 14px;
-    }
-
-    .btn-login {
-        font-size: 14px;
-    }
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
 }

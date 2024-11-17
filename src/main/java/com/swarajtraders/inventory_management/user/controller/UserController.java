@@ -1,4 +1,4 @@
-package com.swarajtraders.inventory_management.user;
+package com.swarajtraders.inventory_management.user.controller;
 
 import java.util.List;
 

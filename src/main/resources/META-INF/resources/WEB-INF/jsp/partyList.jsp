@@ -7,6 +7,8 @@
 <title>Party List</title>
 <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css"
 	rel="stylesheet">
+<!-- Custom Stylesheet -->
+    <link rel="stylesheet" href="/css/header.css">
 </head>
 <script>
     function confirmDelete(partyId) {
@@ -18,7 +20,15 @@
     }
 </script>
 <body>
-
+	<!-- Navigation Bar with Home and Logout buttons -->
+    <nav class="navbar">
+        <a href="/dashboard">Home</a>
+        <h3 class="text-center">Hello, ${user.getUserName()}</h3>
+        <!-- Logout Button: Display only if the user is logged in -->
+        <c:if test="${not empty sessionScope.user}">
+            <a href="/logout">Logout</a>
+        </c:if>
+    </nav>
 	<div class="container mt-5">
 		<h2 class="text-center">Party List</h2>
 		<table class="table table-striped">
