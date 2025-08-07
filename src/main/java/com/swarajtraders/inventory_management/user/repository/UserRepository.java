@@ -7,5 +7,5 @@ import com.swarajtraders.inventory_management.user.entity.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-
+	User findByUserName(String userName);
 }

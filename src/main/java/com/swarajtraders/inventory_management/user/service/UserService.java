@@ -6,6 +6,9 @@ import java.util.function.Predicate;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.swarajtraders.inventory_management.user.entity.User;
@@ -13,10 +16,19 @@ import com.swarajtraders.inventory_management.user.repository.UserRepository;
 import com.swarajtraders.inventory_management.util.InventoryUtil;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUserName(username);
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found with username: " + username);
+		}
+		return user;
+	}
 	
 	public User saveUser(User user) {
 		return userRepository.save(user);
@@ -47,18 +59,7 @@ public class UserService {
 		userRepository.deleteById(userId);
 	}
 
-
 	public User authenticate(String userName, String password) {
-
-		/*if (InventoryUtil.isValidString(userName) && InventoryUtil.isValidString(password)) {
-			Iterable<User> userList = userRepository.findAll();
-			for (User user : userList) {
-				if (InventoryUtil.isValidString(user.getUserName()) && InventoryUtil.isValidString(user.getPassword())
-						&& userName.equals(user.getUserName()) && password.equals(user.getPassword())) {
-					return user;
-				}
-			}
-		}*/
 		if (InventoryUtil.isValidString(userName) && InventoryUtil.isValidString(password)) {
 	        // Create a predicate for user validation
 	        Predicate<User> isValidUser = user ->

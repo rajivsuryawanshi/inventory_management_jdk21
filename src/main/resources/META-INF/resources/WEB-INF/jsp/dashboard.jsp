@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,11 +18,11 @@
     <!-- Navigation Bar with Home and Logout buttons -->
     <nav class="navbar">
         <a href="/dashboard">Home</a>
-        <h3 class="text-center">Hello, ${user.getUserName()}</h3>
-        <!-- Logout Button: Display only if the user is logged in -->
-        <c:if test="${not empty sessionScope.user}">
-            <a href="/logout">Logout</a>
-        </c:if>
+        <h3 class="text-center">Hello, ${name}</h3>
+        <!-- Logout Button: Using Spring Security logout -->
+        <form action="/logout" method="post" style="display: inline;">
+            <button type="submit" class="btn btn-outline-danger">Logout</button>
+        </form>
     </nav>
 
     <div class="container">
