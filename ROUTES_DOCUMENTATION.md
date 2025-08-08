@@ -37,6 +37,42 @@ java -version  # Should show Java 21
 mvn --version  # Should show Java 21 as runtime
 ```
 
+## Troubleshooting
+
+### Database Lock Issues
+If you encounter the error: `"The file is locked: C:/Users/TU-PC/data/h2database.mv.db"`
+
+**Solution 1: Use the clean-up script (Recommended)**
+```powershell
+# Run the clean-up script
+.\clean-and-run.ps1
+```
+
+**Solution 2: Manual cleanup**
+```powershell
+# Kill existing Java processes
+taskkill /F /IM java.exe
+
+# Remove old database files
+Remove-Item "$env:USERPROFILE\data\h2database.mv.db" -Force
+Remove-Item "$env:USERPROFILE\data\h2database.trace.db" -Force
+
+# Run the application
+mvn clean; mvn spring-boot:run
+```
+
+**Solution 3: Use batch file**
+```cmd
+# Run the batch file
+clean-and-run.bat
+```
+
+### Database Configuration
+The application now uses a unique database name to avoid conflicts:
+- **Database URL**: `jdbc:h2:file:~/data/inventory_management_db`
+- **Database Files**: `inventory_management_db.mv.db` and `inventory_management_db.trace.db`
+- **Location**: `C:\Users\TU-PC\data\`
+
 ## Authentication Status
 - ✅ **Authenticated**: Requires user login
 - ❌ **Public**: No authentication required
@@ -140,6 +176,24 @@ mvn --version  # Should show Java 21 as runtime
 - Updated PATH to include Java 21 bin directory
 - Created helper scripts for easy environment setup
 
+### 7. Database Lock Issues ✅ FIXED
+**Problem**: H2 database file was locked by existing application instances.
+
+**Solution**:
+- Created scripts to kill existing Java processes
+- Changed database URL to use unique name: `inventory_management_db`
+- Added cleanup scripts to remove old database files
+- Created `clean-and-run.ps1` and `clean-and-run.bat` scripts
+
+### 8. Context Path Configuration ✅ FIXED
+**Problem**: Application needed to use `/swarajtraders` context path.
+
+**Solution**:
+- Added `server.servlet.context-path=/swarajtraders` to application.properties
+- Updated all JSP files to use `/swarajtraders` prefix in links and forms
+- Updated CSS and static resource paths
+- All routes now accessible under `/swarajtraders` context
+
 ## Current Status
 - ✅ All existing routes are properly authenticated
 - ✅ Logout functionality works correctly
@@ -147,6 +201,8 @@ mvn --version  # Should show Java 21 as runtime
 - ✅ No more 403 Forbidden errors
 - ✅ Error page handling implemented
 - ✅ Java 21 properly configured
+- ✅ Database lock issues resolved
+- ✅ Context path `/swarajtraders` configured
 - 🚧 Placeholder routes show "coming soon" messages instead of errors
 - ✅ All static resources are publicly accessible
 
@@ -170,15 +226,28 @@ This is required for:
 
 ### Start the Application
 ```bash
-# Clean and run
+# Option 1: Clean and run (if no database lock issues)
 mvn clean
 mvn spring-boot:run
+
+# Option 2: Use clean-up script (recommended)
+.\clean-and-run.ps1
+
+# Option 3: Use batch file
+.\clean-and-run.bat
 ```
 
 ### Access the Application
-- **Main Application**: http://localhost:8080
-- **H2 Database Console**: http://localhost:8080/h2-console
+- **Main Application**: http://localhost:8080/swarajtraders
+- **H2 Database Console**: http://localhost:8080/swarajtraders/h2-console
 - **Default Login**: admin/admin
+
+## Context Path Configuration
+The application is configured with context path `/swarajtraders`:
+- **Base URL**: http://localhost:8080/swarajtraders
+- **All routes**: Prefixed with `/swarajtraders`
+- **Static resources**: Accessible at `/swarajtraders/css/`, `/swarajtraders/js/`, etc.
+- **H2 Console**: Available at `/swarajtraders/h2-console`
 
 ## Next Steps
 To implement the placeholder features, create controllers for:
@@ -192,6 +261,6 @@ To implement the placeholder features, create controllers for:
 ## Testing Logout
 The logout should now work correctly:
 1. Click the "Logout" button on any page
-2. You should be redirected to `/login?logout`
+2. You should be redirected to `/swarajtraders/login?logout`
 3. No more 403 Forbidden errors
 4. CSRF tokens are properly included in all forms

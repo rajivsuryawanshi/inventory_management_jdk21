@@ -29,7 +29,7 @@ public class Party {
     private String partyName;
 
     @NotEmpty(message = "GST No is required")
-    @Pattern(regexp = "[a-zA-Z0-9]{15}", message = "GST No must be a 15-digit number")
+    @Size(min = 15, max = 15, message = "GST No must be exactly 15 characters")
     private String gstNo;
 
     @NotEmpty(message = "Phone/Mobile Number is required")
@@ -51,8 +51,12 @@ public class Party {
 
     // Getters and Setters
     
-    public long getPartyId( ) {
+    public Long getPartyId() {
     	return partyId;
+    }
+
+    public void setPartyId(Long partyId) {
+        this.partyId = partyId;
     }
 
     public String getPartyName() {

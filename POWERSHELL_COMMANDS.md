@@ -28,6 +28,9 @@ mvn clean; mvn spring-boot:run
 
 # OR run the batch file
 .\run-app.bat
+
+# OR run the clean-up script (recommended)
+.\clean-and-run.ps1
 ```
 
 ### Option 3: One-liner
@@ -47,13 +50,20 @@ $env:JAVA_HOME = "C:\Program Files\Java\jdk-21"; $env:PATH = "C:\Program Files\J
 
 ## Application Status
 - ✅ Java 21 configured correctly
-- ✅ Application running on http://localhost:8080
-- ✅ H2 Database console available at http://localhost:8080/h2-console
+- ✅ Application running on http://localhost:8080/swarajtraders
+- ✅ H2 Database console available at http://localhost:8080/swarajtraders/h2-console
 - ✅ All CSRF token fixes applied
 - ✅ Logout functionality working
+- ✅ Context path `/swarajtraders` configured
 
 ## Quick Start
 1. Open PowerShell in the project directory
-2. Run: `.\run-app.ps1`
-3. Access: http://localhost:8080
+2. Run: `.\clean-and-run.ps1`
+3. Access: http://localhost:8080/swarajtraders
 4. Login with: admin/admin
+
+## Context Path Information
+The application uses context path `/swarajtraders`:
+- **Main Application**: http://localhost:8080/swarajtraders
+- **H2 Console**: http://localhost:8080/swarajtraders/h2-console
+- **All routes**: Prefixed with `/swarajtraders`

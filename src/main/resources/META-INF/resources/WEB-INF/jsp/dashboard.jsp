@@ -11,16 +11,16 @@
     <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/swarajtraders/css/styles.css">
 
 </head>
 <body>
     <!-- Navigation Bar with Home and Logout buttons -->
     <nav class="navbar">
-        <a href="/dashboard">Home</a>
+        <a href="/swarajtraders/dashboard">Home</a>
         <h3 class="text-center">Hello, ${name}</h3>
         <!-- Logout Button: Using Spring Security logout with CSRF token -->
-        <form action="/logout" method="post" style="display: inline;">
+        <form action="/swarajtraders/logout" method="post" style="display: inline;">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-outline-danger">Logout</button>
         </form>
@@ -38,13 +38,13 @@
         </c:if>
 
         <div class="list-group mt-4">
-            <a href="/parties" class="list-group-item list-group-item-action">Party Details</a>
-            <a href="/productEntry" class="list-group-item list-group-item-action">Product / Item Entry</a>
-            <a href="/purchaseEntry" class="list-group-item list-group-item-action">Purchase Entry</a>
-            <a href="/saleEntry" class="list-group-item list-group-item-action">Sale / Bill Entry</a>
-            <a href="/stockDetails" class="list-group-item list-group-item-action">Stock Details</a>
-            <a href="/stockAdjustment" class="list-group-item list-group-item-action">Stock Adjustment</a>
-            <a href="/expenseEntry" class="list-group-item list-group-item-action">Expense Entry</a>
+            <a href="/swarajtraders/parties" class="list-group-item list-group-item-action">Party Details</a>
+            <a href="/swarajtraders/productEntry" class="list-group-item list-group-item-action">Product / Item Entry</a>
+            <a href="/swarajtraders/purchaseEntry" class="list-group-item list-group-item-action">Purchase Entry</a>
+            <a href="/swarajtraders/saleEntry" class="list-group-item list-group-item-action">Sale / Bill Entry</a>
+            <a href="/swarajtraders/stockDetails" class="list-group-item list-group-item-action">Stock Details</a>
+            <a href="/swarajtraders/stockAdjustment" class="list-group-item list-group-item-action">Stock Adjustment</a>
+            <a href="/swarajtraders/expenseEntry" class="list-group-item list-group-item-action">Expense Entry</a>
         </div>
     </div>
 

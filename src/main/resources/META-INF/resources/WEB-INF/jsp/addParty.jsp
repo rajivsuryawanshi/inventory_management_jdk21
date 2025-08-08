@@ -7,16 +7,16 @@
     <title>Add Party</title>
     <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom Stylesheet -->
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/swarajtraders/css/styles.css">
     </head>
 <body>
 
     <!-- Navigation Bar with Home and Logout buttons -->
     <nav class="navbar">
-        <a href="/dashboard">Home</a>
+        <a href="/swarajtraders/dashboard">Home</a>
         <h3 class="text-center">Hello, ${user.getUserName()}</h3>
         <!-- Logout Button: Using Spring Security logout with CSRF token -->
-        <form action="/logout" method="post" style="display: inline;">
+        <form action="/swarajtraders/logout" method="post" style="display: inline;">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-outline-danger">Logout</button>
         </form>
@@ -34,67 +34,75 @@
             </ul>
         </div>
     </c:if>
+    
+    <!-- Display general error message -->
+    <c:if test="${not empty error}">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${error}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    </c:if>
 
     <div class="container mt-5">
         <div class="form-section">
             <h3>Add Party</h3>
 
-            <!-- Form starts here -->
-            <form action="/addParty" method="post" class="needs-validation" novalidate>
+            <!-- Form starts here using regular HTML with proper field names -->
+            <form action="/swarajtraders/addParty" method="post" class="needs-validation" novalidate>
                 <!-- CSRF Token -->
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 
                 <!-- Party Name -->
                 <div class="mb-3">
                     <label for="partyName" class="form-label">Party Name</label> 
-                    <input type="text" class="form-control" id="partyName" name="partyName" required>
+                    <input type="text" class="form-control" id="partyName" name="partyName" value="${party.partyName}" required>
                     <div class="invalid-feedback">Please enter a valid party name.</div>
                 </div>
 
                 <!-- GST Number -->
                 <div class="mb-3">
                     <label for="gstNo" class="form-label">GST No</label> 
-                    <input type="text" class="form-control" id="gstNo" name="gstNo" required>
-                    <div class="invalid-feedback">Please enter a valid GST number.</div>
+                    <input type="text" class="form-control" id="gstNo" name="gstNo" value="${party.gstNo}" required>
+                    <div class="invalid-feedback">Please enter a valid GST number (15 characters).</div>
                 </div>
 
                 <!-- Phone Number -->
                 <div class="mb-3">
                     <label for="phoneNumber" class="form-label">Phone Number</label> 
-                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" value="${party.phoneNumber}" required>
                     <div class="invalid-feedback">Please enter a valid phone number.</div>
                 </div>
 
                 <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label> 
-                    <input type="email" class="form-control" id="email" name="email" required>
+                    <input type="email" class="form-control" id="email" name="email" value="${party.email}" required>
                     <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
 
                 <!-- Billing Address -->
                 <div class="mb-3">
                     <label for="billingAddress" class="form-label">Billing Address</label> 
-                    <input type="text" class="form-control" id="billingAddress" name="billingAddress" required>
+                    <input type="text" class="form-control" id="billingAddress" name="billingAddress" value="${party.billingAddress}" required>
                     <div class="invalid-feedback">Please enter a billing address.</div>
                 </div>
 
                 <!-- Shipping Address -->
                 <div class="mb-3">
                     <label for="shippingAddress" class="form-label">Shipping Address</label> 
-                    <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" required>
+                    <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" value="${party.shippingAddress}" required>
                     <div class="invalid-feedback">Please enter a shipping address.</div>
                 </div>
 
                 <!-- Additional Fields -->
                 <div class="mb-3">
                     <label for="additionalField1" class="form-label">Additional Field 1</label> 
-                    <input type="text" class="form-control" id="additionalField1" name="additionalField1">
+                    <input type="text" class="form-control" id="additionalField1" name="additionalField1" value="${party.additionalField1}">
                 </div>
 
                 <div class="mb-3">
                     <label for="additionalField2" class="form-label">Additional Field 2</label> 
-                    <input type="text" class="form-control" id="additionalField2" name="additionalField2">
+                    <input type="text" class="form-control" id="additionalField2" name="additionalField2" value="${party.additionalField2}">
                 </div>
 
                 <!-- Submit Button -->
