@@ -1,158 +1,197 @@
 # Inventory Management System - Routes Documentation
 
-## 🔍 **Current Routes Analysis**
+## Overview
+This document lists all the routes in the inventory management system and their authentication status.
 
-### **Web Pages (Require Authentication)**
-| Route | Method | Controller | Description | Status |
-|-------|--------|------------|-------------|---------|
-| `/` | GET | WebController | Home page (redirects to dashboard) | ✅ Implemented |
-| `/dashboard` | GET | WebController | Main dashboard | ✅ Implemented |
-| `/addParty` | GET | PartyController | Show add party form | ✅ Implemented |
-| `/addParty` | POST | PartyController | Handle party form submission | ✅ Implemented |
-| `/parties` | GET | PartyController | List all parties | ✅ Implemented |
-| `/deleteParty` | POST | PartyController | Delete a party | ✅ Implemented |
+## Prerequisites
 
-### **REST API Endpoints (Require Authentication)**
-| Route | Method | Controller | Description | Status |
-|-------|--------|------------|-------------|---------|
-| `/users` | GET | UserController | Get all users | ✅ Implemented |
-| `/users` | POST | UserController | Create new user | ✅ Implemented |
-| `/users/{id}` | PUT | UserController | Update user | ✅ Implemented |
-| `/users/{id}` | DELETE | UserController | Delete user | ✅ Implemented |
+### Java 21 Setup
+This project requires Java 21. To set up the environment:
 
-### **Public Resources (No Authentication Required)**
-| Route | Description | Status |
-|-------|-------------|---------|
-| `/h2-console/**` | H2 Database Console | ✅ Implemented |
-| `/css/**` | Static CSS files | ✅ Implemented |
-| `/js/**` | Static JavaScript files | ✅ Implemented |
-| `/webjars/**` | WebJars resources (Bootstrap, jQuery) | ✅ Implemented |
+**Option 1: Using PowerShell (Recommended)**
+```powershell
+# Set Java 21 environment variables
+$env:JAVA_HOME = "C:\Program Files\Java\jdk-21"
+$env:PATH = "C:\Program Files\Java\jdk-21\bin;" + $env:PATH
 
-### **Future Routes (Referenced in Dashboard but Not Yet Implemented)**
-| Route | Description | Status |
-|-------|-------------|---------|
-| `/productEntry` | Product/Item Entry | 🔄 Planned |
-| `/purchaseEntry` | Purchase Entry | 🔄 Planned |
-| `/saleEntry` | Sale/Bill Entry | 🔄 Planned |
-| `/stockDetails` | Stock Details | 🔄 Planned |
-| `/stockAdjustment` | Stock Adjustment | 🔄 Planned |
-| `/expenseEntry` | Expense Entry | 🔄 Planned |
-
-## 🔧 **How to Add New Routes**
-
-### **Step 1: Create Controller**
-Create a new controller class in the appropriate package:
-
-```java
-@Controller  // For web pages
-// OR
-@RestController  // For REST APIs
-public class YourController {
-    
-    @GetMapping("/your-route")
-    public String yourMethod() {
-        return "viewName";  // For @Controller
-        // OR return data;  // For @RestController
-    }
-}
+# Verify Java version
+java -version
 ```
 
-### **Step 2: Update Security Configuration**
-Add your new route to `SecurityConfig.java`:
-
-```java
-.authorizeHttpRequests(authz -> authz
-    // For public routes (no authentication)
-    .requestMatchers("/your-public-route").permitAll()
-    
-    // For authenticated routes
-    .requestMatchers("/your-protected-route").authenticated()
-    
-    // For role-based access
-    .requestMatchers("/admin-route").hasRole("ADMIN")
-    
-    // For API routes
-    .requestMatchers("/api/**").authenticated()
-)
+**Option 2: Using the provided script**
+```powershell
+# Run the PowerShell script
+.\set-java21.ps1
 ```
 
-### **Step 3: Create View (if needed)**
-For web pages, create JSP files in:
-```
-src/main/resources/META-INF/resources/WEB-INF/jsp/yourView.jsp
-```
-
-### **Step 4: Update Dashboard (if needed)**
-Add navigation links in:
-```
-src/main/resources/META-INF/resources/WEB-INF/jsp/dashboard.jsp
+**Option 3: Using batch file**
+```cmd
+# Run the batch file
+set-java21.bat
 ```
 
-## 📁 **File Structure for Routes**
-
-### **Controllers Location:**
-- **Web Controllers**: `src/main/java/com/swarajtraders/inventory_management/`
-- **Party Controllers**: `src/main/java/com/swarajtraders/inventory_management/party/controller/`
-- **User Controllers**: `src/main/java/com/swarajtraders/inventory_management/user/controller/`
-
-### **Views Location:**
-- **JSP Files**: `src/main/resources/META-INF/resources/WEB-INF/jsp/`
-
-### **Security Configuration:**
-- **SecurityConfig**: `src/main/java/com/swarajtraders/inventory_management/SecurityConfig.java`
-
-## 🔐 **Security Patterns**
-
-### **Public Routes:**
-```java
-.requestMatchers("/public-route").permitAll()
+### Verify Setup
+After setting up Java 21, verify with:
+```bash
+java -version  # Should show Java 21
+mvn --version  # Should show Java 21 as runtime
 ```
 
-### **Authenticated Routes:**
-```java
-.requestMatchers("/protected-route").authenticated()
+## Authentication Status
+- ✅ **Authenticated**: Requires user login
+- ❌ **Public**: No authentication required
+- 🚧 **Placeholder**: Route exists but functionality not implemented
+
+## Web Routes (Controller: WebController)
+
+| Route | Method | Authentication | Status | Description |
+|-------|--------|----------------|--------|-------------|
+| `/` | GET | ✅ Authenticated | ✅ Implemented | Redirects to dashboard |
+| `/dashboard` | GET | ✅ Authenticated | ✅ Implemented | Main dashboard page |
+| `/error` | GET | ✅ Authenticated | ✅ Implemented | Error page handler |
+| `/productEntry` | GET | ✅ Authenticated | 🚧 Placeholder | Product entry (coming soon) |
+| `/purchaseEntry` | GET | ✅ Authenticated | 🚧 Placeholder | Purchase entry (coming soon) |
+| `/saleEntry` | GET | ✅ Authenticated | 🚧 Placeholder | Sale entry (coming soon) |
+| `/stockDetails` | GET | ✅ Authenticated | 🚧 Placeholder | Stock details (coming soon) |
+| `/stockAdjustment` | GET | ✅ Authenticated | 🚧 Placeholder | Stock adjustment (coming soon) |
+| `/expenseEntry` | GET | ✅ Authenticated | 🚧 Placeholder | Expense entry (coming soon) |
+
+## Party Management Routes (Controller: PartyController)
+
+| Route | Method | Authentication | Status | Description |
+|-------|--------|----------------|--------|-------------|
+| `/addParty` | GET | ✅ Authenticated | ✅ Implemented | Show add party form |
+| `/addParty` | POST | ✅ Authenticated | ✅ Implemented | Handle party form submission |
+| `/parties` | GET | ✅ Authenticated | ✅ Implemented | List all parties |
+| `/deleteParty` | POST | ✅ Authenticated | ✅ Implemented | Delete a party |
+
+## User Management API Routes (Controller: UserController)
+
+| Route | Method | Authentication | Status | Description |
+|-------|--------|----------------|--------|-------------|
+| `/users` | GET | ✅ Authenticated | ✅ Implemented | Get all users (REST API) |
+| `/users` | POST | ✅ Authenticated | ✅ Implemented | Create new user (REST API) |
+| `/users/{id}` | PUT | ✅ Authenticated | ✅ Implemented | Update user (REST API) |
+| `/users/{id}` | DELETE | ✅ Authenticated | ✅ Implemented | Delete user (REST API) |
+
+## Authentication Routes (Spring Security)
+
+| Route | Method | Authentication | Status | Description |
+|-------|--------|----------------|--------|-------------|
+| `/login` | GET | ❌ Public | ✅ Implemented | Login page |
+| `/logout` | POST | ❌ Public | ✅ Implemented | Logout (Spring Security) |
+
+## Static Resources
+
+| Route | Authentication | Status | Description |
+|-------|----------------|--------|-------------|
+| `/css/**` | ❌ Public | ✅ Implemented | CSS files |
+| `/js/**` | ❌ Public | ✅ Implemented | JavaScript files |
+| `/webjars/**` | ❌ Public | ✅ Implemented | WebJars (Bootstrap, jQuery) |
+| `/h2-console/**` | ❌ Public | ✅ Implemented | H2 Database console |
+
+## Issues Fixed
+
+### 1. Logout Route Issue ✅ FIXED
+**Problem**: The dashboard had a POST form to `/logout`, but Spring Security's default logout handler expects a GET request.
+
+**Solution**: 
+- Added explicit `.logoutUrl("/logout")` configuration in SecurityConfig
+- Removed `/logout` from authenticated routes list (it should be public)
+- This allows both GET and POST requests to `/logout`
+
+### 2. CSRF Token Issues ✅ FIXED
+**Problem**: All POST forms were missing CSRF tokens, causing 403 Forbidden errors.
+
+**Solution**:
+- Added CSRF tokens to all POST forms:
+  - Logout forms in all JSP pages
+  - Add Party form in `addParty.jsp`
+  - Delete Party forms in `partyList.jsp`
+- CSRF tokens are automatically provided by Spring Security: `${_csrf.parameterName}` and `${_csrf.token}`
+
+### 3. Missing Route Implementations ✅ FIXED
+**Problem**: Dashboard referenced routes that didn't exist, causing 403 Forbidden errors.
+
+**Solution**:
+- Added placeholder controller methods for all referenced routes
+- Each placeholder returns to dashboard with a "coming soon" message
+- Updated dashboard JSP to display these messages
+
+### 4. Error Page Handling ✅ FIXED
+**Problem**: No explicit mapping for `/error` causing Whitelabel error pages.
+
+**Solution**:
+- Added `/error` route mapping in WebController
+- Error page now redirects to dashboard with error message
+
+### 5. Security Configuration Cleanup ✅ FIXED
+**Problem**: SecurityConfig had references to unimplemented routes.
+
+**Solution**:
+- Removed `/logout` from authenticated routes (should be public)
+- Routes are now handled by the general `.anyRequest().authenticated()` rule
+
+### 6. Java 21 Configuration ✅ FIXED
+**Problem**: Maven was using Java 17 instead of Java 21.
+
+**Solution**:
+- Set JAVA_HOME to point to Java 21: `C:\Program Files\Java\jdk-21`
+- Updated PATH to include Java 21 bin directory
+- Created helper scripts for easy environment setup
+
+## Current Status
+- ✅ All existing routes are properly authenticated
+- ✅ Logout functionality works correctly
+- ✅ All POST forms include CSRF tokens
+- ✅ No more 403 Forbidden errors
+- ✅ Error page handling implemented
+- ✅ Java 21 properly configured
+- 🚧 Placeholder routes show "coming soon" messages instead of errors
+- ✅ All static resources are publicly accessible
+
+## CSRF Token Implementation
+All POST forms now include the required CSRF token:
+```html
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 ```
 
-### **Role-Based Routes:**
-```java
-.requestMatchers("/admin-route").hasRole("ADMIN")
-.requestMatchers("/user-route").hasRole("USER")
+This is required for:
+- Logout forms
+- Add Party form
+- Delete Party forms
+
+## Running the Application
+
+### Prerequisites
+1. Java 21 installed at `C:\Program Files\Java\jdk-21`
+2. Maven 3.9+ installed
+3. Set up Java 21 environment (see Prerequisites section)
+
+### Start the Application
+```bash
+# Clean and run
+mvn clean
+mvn spring-boot:run
 ```
 
-### **API Routes:**
-```java
-.requestMatchers("/api/**").authenticated()
-```
+### Access the Application
+- **Main Application**: http://localhost:8080
+- **H2 Database Console**: http://localhost:8080/h2-console
+- **Default Login**: admin/admin
 
-## 🚀 **Quick Start for New Routes**
+## Next Steps
+To implement the placeholder features, create controllers for:
+1. Product Entry
+2. Purchase Entry  
+3. Sale Entry
+4. Stock Details
+5. Stock Adjustment
+6. Expense Entry
 
-1. **Create Controller** → Add `@GetMapping` or `@PostMapping`
-2. **Update SecurityConfig** → Add route to appropriate security group
-3. **Create View** → Add JSP file (if web page)
-4. **Test Route** → Access via browser or API client
-5. **Update Dashboard** → Add navigation link (if needed)
-
-## 📝 **Notes**
-
-- All routes are currently configured to require authentication except for static resources and H2 console
-- The application uses Spring Security with form-based login
-- Default login credentials: `admin` / `admin`
-- CSRF protection is enabled for all forms except H2 console
-- Session management is handled by Spring Security
-
-## 🔍 **Troubleshooting**
-
-### **403 Forbidden Error:**
-- Check if route is added to SecurityConfig
-- Verify authentication status
-- Check if route requires specific roles
-
-### **404 Not Found Error:**
-- Verify controller is properly annotated
-- Check if view file exists (for web pages)
-- Ensure route mapping is correct
-
-### **500 Internal Server Error:**
-- Check controller method implementation
-- Verify dependencies are properly injected
-- Check database connectivity (if applicable)
+## Testing Logout
+The logout should now work correctly:
+1. Click the "Logout" button on any page
+2. You should be redirected to `/login?logout`
+3. No more 403 Forbidden errors
+4. CSRF tokens are properly included in all forms

@@ -15,10 +15,11 @@
     <nav class="navbar">
         <a href="/dashboard">Home</a>
         <h3 class="text-center">Hello, ${user.getUserName()}</h3>
-        <!-- Logout Button: Display only if the user is logged in -->
-        <c:if test="${not empty sessionScope.user}">
-            <a href="/logout">Logout</a>
-        </c:if>
+        <!-- Logout Button: Using Spring Security logout with CSRF token -->
+        <form action="/logout" method="post" style="display: inline;">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            <button type="submit" class="btn btn-outline-danger">Logout</button>
+        </form>
     </nav>
 
     <!-- Error Message -->
@@ -40,6 +41,9 @@
 
             <!-- Form starts here -->
             <form action="/addParty" method="post" class="needs-validation" novalidate>
+                <!-- CSRF Token -->
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                
                 <!-- Party Name -->
                 <div class="mb-3">
                     <label for="partyName" class="form-label">Party Name</label> 

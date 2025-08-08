@@ -35,4 +35,48 @@ public class WebController {
     public String home() {
         return "redirect:/dashboard";
     }
+    
+    // Error page mapping
+    @GetMapping("/error")
+    public String error(Model model) {
+        model.addAttribute("message", "An error occurred. Please try again.");
+        return "dashboard";
+    }
+    
+    // Placeholder mappings for future features
+    @GetMapping("/productEntry")
+    public String productEntry(Model model) {
+        model.addAttribute("message", "Product Entry - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @GetMapping("/purchaseEntry")
+    public String purchaseEntry(Model model) {
+        model.addAttribute("message", "Purchase Entry - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @GetMapping("/saleEntry")
+    public String saleEntry(Model model) {
+        model.addAttribute("message", "Sale Entry - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @GetMapping("/stockDetails")
+    public String stockDetails(Model model) {
+        model.addAttribute("message", "Stock Details - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @GetMapping("/stockAdjustment")
+    public String stockAdjustment(Model model) {
+        model.addAttribute("message", "Stock Adjustment - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @GetMapping("/expenseEntry")
+    public String expenseEntry(Model model) {
+        model.addAttribute("message", "Expense Entry - Coming Soon!");
+        return "dashboard"; // Redirect back to dashboard for now
+    }
 }

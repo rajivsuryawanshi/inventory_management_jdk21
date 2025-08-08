@@ -19,14 +19,23 @@
     <nav class="navbar">
         <a href="/dashboard">Home</a>
         <h3 class="text-center">Hello, ${name}</h3>
-        <!-- Logout Button: Using Spring Security logout -->
+        <!-- Logout Button: Using Spring Security logout with CSRF token -->
         <form action="/logout" method="post" style="display: inline;">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-outline-danger">Logout</button>
         </form>
     </nav>
 
     <div class="container">
         <h1 class="text-center mt-5">Welcome to Swaraj Traders</h1>
+        
+        <!-- Display message if present -->
+        <c:if test="${not empty message}">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </c:if>
 
         <div class="list-group mt-4">
             <a href="/parties" class="list-group-item list-group-item-action">Party Details</a>
