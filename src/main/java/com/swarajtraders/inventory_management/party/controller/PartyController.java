@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.swarajtraders.inventory_management.party.entity.Party;
 import com.swarajtraders.inventory_management.party.repository.PartyRepository;
 
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
