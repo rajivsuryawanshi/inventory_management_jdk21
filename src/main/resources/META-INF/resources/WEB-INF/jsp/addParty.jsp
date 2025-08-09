@@ -55,43 +55,73 @@
                 <!-- Party Name -->
                 <div class="mb-3">
                     <label for="partyName" class="form-label">Party Name</label> 
-                    <input type="text" class="form-control" id="partyName" name="partyName" value="${party.partyName}" required>
-                    <div class="invalid-feedback">Please enter a valid party name.</div>
+                    <input type="text" class="form-control ${not empty fieldErrors['partyName'] ? 'is-invalid' : ''}" id="partyName" name="partyName" value="${party.partyName}" required>
+                    <c:if test="${not empty fieldErrors['partyName']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['partyName']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['partyName']}">
+                        <div class="invalid-feedback">Please enter a valid party name.</div>
+                    </c:if>
                 </div>
 
                 <!-- GST Number -->
                 <div class="mb-3">
                     <label for="gstNo" class="form-label">GST No</label> 
-                    <input type="text" class="form-control" id="gstNo" name="gstNo" value="${party.gstNo}" required>
-                    <div class="invalid-feedback">Please enter a valid GST number (15 characters).</div>
+                    <input type="text" class="form-control ${not empty fieldErrors['gstNo'] ? 'is-invalid' : ''}" id="gstNo" name="gstNo" value="${party.gstNo}" required>
+                    <c:if test="${not empty fieldErrors['gstNo']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['gstNo']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['gstNo']}">
+                        <div class="invalid-feedback">Please enter a valid GST number (15 characters).</div>
+                    </c:if>
                 </div>
 
                 <!-- Phone Number -->
                 <div class="mb-3">
                     <label for="phoneNumber" class="form-label">Phone Number</label> 
-                    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" value="${party.phoneNumber}" required>
-                    <div class="invalid-feedback">Please enter a valid phone number.</div>
+                    <input type="tel" class="form-control ${not empty fieldErrors['phoneNumber'] ? 'is-invalid' : ''}" id="phoneNumber" name="phoneNumber" value="${party.phoneNumber}" required>
+                    <c:if test="${not empty fieldErrors['phoneNumber']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['phoneNumber']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['phoneNumber']}">
+                        <div class="invalid-feedback">Please enter a valid phone number.</div>
+                    </c:if>
                 </div>
 
                 <!-- Email -->
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label> 
-                    <input type="email" class="form-control" id="email" name="email" value="${party.email}" required>
-                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                    <input type="email" class="form-control ${not empty fieldErrors['email'] ? 'is-invalid' : ''}" id="email" name="email" value="${party.email}" required>
+                    <c:if test="${not empty fieldErrors['email']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['email']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['email']}">
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                    </c:if>
                 </div>
 
                 <!-- Billing Address -->
                 <div class="mb-3">
                     <label for="billingAddress" class="form-label">Billing Address</label> 
-                    <input type="text" class="form-control" id="billingAddress" name="billingAddress" value="${party.billingAddress}" required>
-                    <div class="invalid-feedback">Please enter a billing address.</div>
+                    <input type="text" class="form-control ${not empty fieldErrors['billingAddress'] ? 'is-invalid' : ''}" id="billingAddress" name="billingAddress" value="${party.billingAddress}" required>
+                    <c:if test="${not empty fieldErrors['billingAddress']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['billingAddress']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['billingAddress']}">
+                        <div class="invalid-feedback">Please enter a billing address.</div>
+                    </c:if>
                 </div>
 
                 <!-- Shipping Address -->
                 <div class="mb-3">
                     <label for="shippingAddress" class="form-label">Shipping Address</label> 
-                    <input type="text" class="form-control" id="shippingAddress" name="shippingAddress" value="${party.shippingAddress}" required>
-                    <div class="invalid-feedback">Please enter a shipping address.</div>
+                    <input type="text" class="form-control ${not empty fieldErrors['shippingAddress'] ? 'is-invalid' : ''}" id="shippingAddress" name="shippingAddress" value="${party.shippingAddress}" required>
+                    <c:if test="${not empty fieldErrors['shippingAddress']}">
+                        <div class="invalid-feedback d-block">${fieldErrors['shippingAddress']}</div>
+                    </c:if>
+                    <c:if test="${empty fieldErrors['shippingAddress']}">
+                        <div class="invalid-feedback">Please enter a shipping address.</div>
+                    </c:if>
                 </div>
 
                 <!-- Additional Fields -->

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.validation.Valid;
+
 import com.swarajtraders.inventory_management.party.entity.Party;
 import com.swarajtraders.inventory_management.party.repository.PartyRepository;
 
@@ -63,33 +65,24 @@ public class PartyController {
 
 	// Handle the Party Form submission
 	@PostMapping("/addParty")
-	public String handleAddParty(@ModelAttribute("party") Party party, BindingResult result, Model model) {
+	public String handleAddParty(@Valid @ModelAttribute("party") Party party, BindingResult result, Model model) {
 		logger.info("Processing add party request for: {}", party.getPartyName());
 		logger.info("Party details - Name: {}, GST: {}, Phone: {}, Email: {}", 
 			party.getPartyName(), party.getGstNo(), party.getPhoneNumber(), party.getEmail());
 		
-		// Manual validation since we're not using @Valid
-		boolean hasErrors = false;
-		if (party.getPartyName() == null || party.getPartyName().trim().isEmpty()) {
-			logger.warn("Party name is empty");
-			hasErrors = true;
-		}
-		if (party.getGstNo() == null || party.getGstNo().length() != 15) {
-			logger.warn("GST number is invalid: {}", party.getGstNo());
-			hasErrors = true;
-		}
-		if (party.getPhoneNumber() == null || !party.getPhoneNumber().matches("^[0-9]{10}$")) {
-			logger.warn("Phone number is invalid: {}", party.getPhoneNumber());
-			hasErrors = true;
-		}
-		if (party.getEmail() == null || !party.getEmail().contains("@")) {
-			logger.warn("Email is invalid: {}", party.getEmail());
-			hasErrors = true;
-		}
-		
-		if (hasErrors) {
-			logger.warn("Validation errors found, returning to form");
-			model.addAttribute("error", "Please check all required fields");
+		// Check for validation errors
+		if (result.hasErrors()) {
+			logger.warn("Validation errors found: {}", result.getAllErrors());
+			// Add the binding result errors to the model so JSP can display them
+			model.addAttribute("errors", result.getAllErrors());
+			
+			// Create field-specific error mapping for better JSP display
+			java.util.Map<String, String> fieldErrors = new java.util.HashMap<>();
+			result.getFieldErrors().forEach(error -> {
+				fieldErrors.put(error.getField(), error.getDefaultMessage());
+			});
+			model.addAttribute("fieldErrors", fieldErrors);
+			
 			return "addParty";
 		}
 
