@@ -94,11 +94,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		<!-- Spring Session JDBC for session management -->
+		<!-- Spring Session JDBC for session management - temporarily disabled to fix redirect issue -->
+		<!--
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-jdbc</artifactId>
 		</dependency>
+		-->
 	</dependencies>
 
 	<build>

@@ -1,43 +1,38 @@
 package com.swarajtraders.inventory_management;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.context.annotation.Bean;
-import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
+
 
 @Configuration
 @EnableWebSecurity
-@EnableJdbcHttpSession
 public class SecurityConfig {
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authz -> authz
-                // Public resources (no authentication required)
-                .requestMatchers("/h2-console/**").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
-                .requestMatchers("/login").permitAll()
+                // Public resources - allow all static resources
+                .requestMatchers("/", "/login", "/login.html", "/css/**", "/js/**", "/webjars/**", "/h2-console/**", "/test").permitAll()
                 
-                // Web pages (require authentication)
-                .requestMatchers("/", "/dashboard").authenticated()
-                
-                // Party management routes
+                // Protected routes
+                .requestMatchers("/dashboard").authenticated()
                 .requestMatchers("/addParty", "/parties", "/deleteParty").authenticated()
-                
-                // Item management routes
                 .requestMatchers("/addItem", "/items", "/deleteItem").authenticated()
-                
-                // User management API routes (REST endpoints)
                 .requestMatchers("/users/**").authenticated()
-                
-                // Future application routes (referenced in dashboard but not yet implemented)
                 .requestMatchers("/productEntry", "/purchaseEntry", "/saleEntry", 
                                "/stockDetails", "/stockAdjustment", "/expenseEntry").authenticated()
                 
@@ -46,6 +41,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/dashboard", true)
                 .failureUrl("/login?error")
                 .permitAll()
@@ -53,21 +49,19 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
             )
-            .sessionManagement(session -> session
-                .maximumSessions(1)
-                .expiredUrl("/login?expired")
-                .maxSessionsPreventsLogin(false)
-            )
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/h2-console/**")
-            )
-            .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions.sameOrigin())
-            );
+            .csrf(csrf -> csrf.disable())
+            .userDetailsService(userDetailsService);
         
         return http.build();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
     }
 
     @Bean
@@ -75,8 +69,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher() {
-        return new HttpSessionEventPublisher();
-    }
 }

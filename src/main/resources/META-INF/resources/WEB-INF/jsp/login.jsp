@@ -6,153 +6,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swaraj Traders - Login</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .login-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        
-        .logo {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-        
-        .login-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        
-        .login-btn:hover {
-            transform: translateY(-2px);
-        }
-        
-        .alert {
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-        
-        .alert-error {
-            background-color: #fee;
-            color: #c53030;
-            border: 1px solid #feb2b2;
-        }
-        
-        .alert-success {
-            background-color: #f0fff4;
-            color: #2f855a;
-            border: 1px solid #9ae6b4;
-        }
-        
-        .alert-info {
-            background-color: #ebf8ff;
-            color: #2b6cb0;
-            border: 1px solid #90cdf4;
-        }
-        
-        .footer {
-            margin-top: 30px;
-            color: #666;
-            font-size: 0.9em;
-        }
-    </style>
+    
+    <!-- Custom Modern UI Stylesheet -->
+    <link rel="stylesheet" href="/swarajtraders/css/modern-ui.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="login-container">
-        <div class="logo">Swaraj Traders</div>
-        <div class="subtitle">Inventory Management System</div>
-        
-        <!-- Error Messages -->
-        <c:if test="${not empty error}">
-            <div class="alert alert-error">
-                ${error}
+    <div class="container" style="max-width: 500px; margin: 2rem auto; text-align: center;">
+        <div class="card">
+            <div class="logo" style="font-size: 2.5rem; font-weight: 700; color: var(--dark-color); margin-bottom: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem;">
+                <i class="fas fa-store" style="color: var(--primary-color);"></i>
+                Swaraj Traders
             </div>
-        </c:if>
-        
-        <c:if test="${not empty message}">
-            <div class="alert alert-info">
-                ${message}
-            </div>
-        </c:if>
-        
-        <!-- Login Form -->
-        <form action="${pageContext.request.contextPath}/login" method="post">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required autocomplete="username">
-            </div>
+            <div class="subtitle" style="color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; font-weight: 500;">Inventory Management System</div>
             
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required autocomplete="current-password">
-            </div>
+            <!-- Error Messages -->
+            <c:if test="${not empty error}">
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> ${error}
+                </div>
+            </c:if>
             
-            <button type="submit" class="login-btn">Sign In</button>
-        </form>
-        
-        <div class="footer">
-            <p>&copy; 2025 Swaraj Traders. All rights reserved.</p>
+            <c:if test="${not empty message}">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> ${message}
+                </div>
+            </c:if>
+            
+            <!-- Login Form -->
+            <form action="/swarajtraders/perform_login" method="post" id="loginForm">
+                <div class="form-section">
+                    <div class="form-group">
+                        <label for="username" class="form-label">
+                            <i class="fas fa-user"></i> Username
+                        </label>
+                        <input type="text" id="username" name="username" class="form-control" required 
+                               placeholder="Enter your username" autocomplete="username">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock"></i> Password
+                        </label>
+                        <input type="password" id="password" name="password" class="form-control" required 
+                               placeholder="Enter your password" autocomplete="current-password">
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitBtn" style="width: 100%; margin-top: 1rem;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </div>
+            </form>
+            
+            <div class="footer" style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.875rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                <p>&copy; 2025 Swaraj Traders. All rights reserved.</p>
+            </div>
         </div>
     </div>
     
@@ -160,7 +70,7 @@
         // Auto-focus on username field
         document.getElementById('username').focus();
         
-        // Add some interactive effects
+        // Enhanced form interactions
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('focus', function() {
                 this.parentElement.style.transform = 'translateY(-2px)';
@@ -169,6 +79,35 @@
             input.addEventListener('blur', function() {
                 this.parentElement.style.transform = 'translateY(0)';
             });
+
+            // Add floating label effect
+            input.addEventListener('input', function() {
+                if (this.value) {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+        });
+
+        // Form submission with loading state
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.container');
+            container.style.opacity = '0';
+            container.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                container.style.transition = 'all 0.5s ease-out';
+                container.style.opacity = '1';
+                container.style.transform = 'translateY(0)';
+            }, 100);
         });
     </script>
 </body>

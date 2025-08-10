@@ -23,6 +23,12 @@ public class WebController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/test")
+    @ResponseBody
+    public String test() {
+        return "Application is working!";
+    }
+
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                        @RequestParam(value = "logout", required = false) String logout,
@@ -31,22 +37,16 @@ public class WebController {
         
         logger.info("Login page accessed - error: {}, logout: {}, expired: {}", error, logout, expired);
         
+        // Redirect to static HTML login page
         if (error != null) {
-            model.addAttribute("error", "Invalid username or password.");
-            logger.warn("Login attempt failed");
+            return "redirect:/login.html?error=true";
         } else if (logout != null) {
-            model.addAttribute("message", "You have been logged out successfully.");
-            logger.info("User logged out successfully");
+            return "redirect:/login.html?message=You have been logged out successfully.";
         } else if (expired != null) {
-            model.addAttribute("message", "Your session has expired. Please login again.");
-            logger.info("Session expired, redirecting to login");
+            return "redirect:/login.html?message=Your session has expired. Please login again.";
         } else {
-            // For regular login route, show the same UI as expired session
-            model.addAttribute("message", "Your session has expired. Please login again.");
-            logger.info("Regular login route accessed, showing expired session UI");
+            return "redirect:/login.html";
         }
-        
-        return "login";
     }
 
     @GetMapping("/dashboard")
@@ -66,7 +66,8 @@ public class WebController {
 
     @GetMapping("/")
     public String home() {
-        return "redirect:/dashboard";
+        // Simply redirect to login page - let Spring Security handle authentication
+        return "redirect:/login";
     }
     
     // Error page mapping

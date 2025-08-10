@@ -15,6 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(sessionTimeoutInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login", "/logout", "/h2-console/**", "/css/**", "/js/**", "/webjars/**");
+                .excludePathPatterns("/login", "/login/**", "/perform_login", "/logout", "/h2-console/**", "/css/**", "/js/**", "/webjars/**");
     }
 }
