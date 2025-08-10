@@ -70,13 +70,13 @@
                                     <td>${item.category}</td>
                                     <td>${item.subCategory}</td>
                                     <td>
-                                        <fmt:formatNumber value="${item.wholesalePrice}" type="currency" currencySymbol="₹"/>
+                                        <fmt:formatNumber value="${item.wholesalePrice}" type="currency" currencySymbol="Rs"/>
                                     </td>
                                     <td>
-                                        <fmt:formatNumber value="${item.purchasePrice}" type="currency" currencySymbol="₹"/>
+                                        <fmt:formatNumber value="${item.purchasePrice}" type="currency" currencySymbol="Rs"/>
                                     </td>
                                     <td>
-                                        <fmt:formatNumber value="${item.salePrice}" type="currency" currencySymbol="₹"/>
+                                        <fmt:formatNumber value="${item.salePrice}" type="currency" currencySymbol="Rs"/>
                                     </td>
                                     <td>
                                         <form action="/swarajtraders/deleteItem" method="post" style="display: inline;" 
