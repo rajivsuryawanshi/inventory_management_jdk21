@@ -256,7 +256,7 @@ body {
     max-width: 1200px;
     border: 1px solid rgba(255, 255, 255, 0.3);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .container::before {
@@ -531,15 +531,19 @@ h3 {
 /* Enhanced Table Styles */
 .table-responsive {
     border-radius: var(--border-radius-xl);
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: visible;
     box-shadow: var(--shadow-lg);
     background: var(--bg-primary);
+    margin-bottom: var(--spacing-lg);
 }
 
 .table {
     width: 100%;
+    min-width: 800px;
     border-collapse: collapse;
     background: var(--bg-primary);
+    table-layout: auto;
 }
 
 .table thead {
@@ -777,6 +781,7 @@ h3 {
     .container {
         margin: 6rem var(--spacing-md) var(--spacing-md);
         padding: var(--spacing-lg);
+        overflow-x: auto;
     }
     
     .navbar {
@@ -799,11 +804,18 @@ h3 {
     
     .table-responsive {
         font-size: var(--font-size-sm);
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .table {
+        min-width: 600px;
     }
     
     .table th,
     .table td {
         padding: var(--spacing-sm);
+        white-space: nowrap;
     }
     
     .dashboard-grid {
