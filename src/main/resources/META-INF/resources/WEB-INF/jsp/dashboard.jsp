@@ -39,7 +39,8 @@
 
         <div class="list-group mt-4">
             <a href="/swarajtraders/parties" class="list-group-item list-group-item-action">Party Details</a>
-            <a href="/swarajtraders/productEntry" class="list-group-item list-group-item-action">Product / Item Entry</a>
+            <a href="/swarajtraders/addItem" class="list-group-item list-group-item-action">Product / Item Entry</a>
+            <a href="/swarajtraders/items" class="list-group-item list-group-item-action">View All Items</a>
             <a href="/swarajtraders/purchaseEntry" class="list-group-item list-group-item-action">Purchase Entry</a>
             <a href="/swarajtraders/saleEntry" class="list-group-item list-group-item-action">Sale / Bill Entry</a>
             <a href="/swarajtraders/stockDetails" class="list-group-item list-group-item-action">Stock Details</a>
