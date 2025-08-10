@@ -23,6 +23,7 @@ public class SecurityConfig {
                 // Public resources (no authentication required)
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/webjars/**").permitAll()
+                .requestMatchers("/login").permitAll()
                 
                 // Web pages (require authentication)
                 .requestMatchers("/", "/dashboard").authenticated()
@@ -44,7 +45,9 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
+                .loginPage("/login")
                 .defaultSuccessUrl("/dashboard", true)
+                .failureUrl("/login?error")
                 .permitAll()
             )
             .logout(logout -> logout

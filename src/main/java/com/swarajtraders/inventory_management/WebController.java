@@ -1,5 +1,7 @@
 package com.swarajtraders.inventory_management;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.swarajtraders.inventory_management.user.entity.User;
@@ -15,8 +18,36 @@ import com.swarajtraders.inventory_management.user.repository.UserRepository;
 @Controller
 public class WebController {
 
+    private static final Logger logger = LoggerFactory.getLogger(WebController.class);
+
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping("/login")
+    public String login(@RequestParam(value = "error", required = false) String error,
+                       @RequestParam(value = "logout", required = false) String logout,
+                       @RequestParam(value = "expired", required = false) String expired,
+                       Model model) {
+        
+        logger.info("Login page accessed - error: {}, logout: {}, expired: {}", error, logout, expired);
+        
+        if (error != null) {
+            model.addAttribute("error", "Invalid username or password.");
+            logger.warn("Login attempt failed");
+        } else if (logout != null) {
+            model.addAttribute("message", "You have been logged out successfully.");
+            logger.info("User logged out successfully");
+        } else if (expired != null) {
+            model.addAttribute("message", "Your session has expired. Please login again.");
+            logger.info("Session expired, redirecting to login");
+        } else {
+            // For regular login route, show the same UI as expired session
+            model.addAttribute("message", "Your session has expired. Please login again.");
+            logger.info("Regular login route accessed, showing expired session UI");
+        }
+        
+        return "login";
+    }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
