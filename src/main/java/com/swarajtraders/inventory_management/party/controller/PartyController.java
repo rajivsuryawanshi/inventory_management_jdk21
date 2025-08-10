@@ -51,11 +51,16 @@ public class PartyController {
 
 	// Show all parties
 	@GetMapping("/parties")
-	public String listParties(Model model) {
+	public String listParties(Model model, @RequestParam(value = "message", required = false) String message) {
 		logger.info("Listing all parties");
 		try {
 			model.addAttribute("parties", partyRepository.findAll());
 			logger.info("Found {} parties", partyRepository.count());
+			
+			// Add success message if present
+			if (message != null && !message.isEmpty()) {
+				model.addAttribute("message", message);
+			}
 		} catch (Exception e) {
 			logger.error("Error fetching parties", e);
 			model.addAttribute("error", "Error loading parties: " + e.getMessage());
@@ -122,6 +127,68 @@ public class PartyController {
 			logger.error("Error deleting party with ID: {}", partyId, e);
 			redirectAttributes.addFlashAttribute("error", "Error deleting party: " + e.getMessage());
 			return "redirect:/parties";
+		}
+	}
+
+	// Show the Edit Party Form
+	@GetMapping("/editParty")
+	public String showEditPartyForm(@RequestParam("partyId") Long partyId, Model model) {
+		logger.info("Showing edit party form for ID: {}", partyId);
+		
+		try {
+			java.util.Optional<Party> partyOptional = partyRepository.findById(partyId);
+			if (partyOptional.isPresent()) {
+				Party party = partyOptional.get();
+				model.addAttribute("party", party);
+				model.addAttribute("isEdit", true);
+				logger.info("Found party to edit: {}", party.getPartyName());
+				return "editParty"; // JSP view name
+			} else {
+				logger.warn("Party not found with ID: {}", partyId);
+				model.addAttribute("error", "Party not found!");
+				return "redirect:/parties";
+			}
+		} catch (Exception e) {
+			logger.error("Error fetching party for editing", e);
+			model.addAttribute("error", "Error loading party: " + e.getMessage());
+			return "redirect:/parties";
+		}
+	}
+
+	// Handle the Edit Party Form submission
+	@PostMapping("/editParty")
+	public String handleEditParty(@Valid @ModelAttribute("party") Party party, BindingResult result, Model model) {
+		logger.info("Processing edit party request for ID: {}, Name: {}", party.getPartyId(), party.getPartyName());
+		
+		// Check for validation errors
+		if (result.hasErrors()) {
+			logger.warn("Validation errors found: {}", result.getAllErrors());
+			// Add the binding result errors to the model so JSP can display them
+			model.addAttribute("errors", result.getAllErrors());
+			model.addAttribute("isEdit", true);
+			
+			// Create field-specific error mapping for better JSP display
+			java.util.Map<String, String> fieldErrors = new java.util.HashMap<>();
+			result.getFieldErrors().forEach(error -> {
+				fieldErrors.put(error.getField(), error.getDefaultMessage());
+			});
+			model.addAttribute("fieldErrors", fieldErrors);
+			
+			return "editParty";
+		}
+
+		try {
+			logger.info("Attempting to update party in database");
+			Party savedParty = partyRepository.save(party);
+			logger.info("Party updated successfully with ID: {}", savedParty.getPartyId());
+			
+			// Add success message and redirect
+			return "redirect:/parties?message=Party updated successfully!";
+		} catch (Exception e) {
+			logger.error("Error updating party", e);
+			model.addAttribute("error", "Error updating party: " + e.getMessage());
+			model.addAttribute("isEdit", true);
+			return "editParty";
 		}
 	}
 }

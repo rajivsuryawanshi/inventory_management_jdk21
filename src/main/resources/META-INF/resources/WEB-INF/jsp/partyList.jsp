@@ -98,6 +98,11 @@
                                     <td style="word-wrap: break-word; max-width: 200px;">${party.getBillingAddress()}</td>
                                     <td style="word-wrap: break-word; max-width: 200px;">${party.getShippingAddress()}</td>
                                     <td>
+                                        <!-- Edit Button -->
+                                        <a href="/swarajtraders/editParty?partyId=${party.getPartyId()}" class="btn btn-primary btn-sm" style="margin-right: 0.5rem;">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                        
                                         <!-- Form that submits a POST request to delete the party -->
                                         <form action="/swarajtraders/deleteParty" method="POST"
                                             style="display: inline;" id="deleteForm-${party.getPartyId()}">
