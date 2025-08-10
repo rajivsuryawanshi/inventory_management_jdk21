@@ -64,3 +64,12 @@ This document outlines how to test the newly created Item management system.
 - If validation fails, ensure all required fields are filled
 - If deletion fails, check if the item exists in the database
 - Check application logs for any error messages
+
+## Session Timeout Testing
+The application now includes configurable session timeout functionality:
+- **Default timeout**: 5 minutes (configurable in `application.properties`)
+- **Warning**: Appears 1 minute before timeout
+- **Activity detection**: Resets timer on user interaction
+- **Heartbeat system**: Extends session when needed
+
+For detailed session timeout testing, see `test-session-timeout.md`

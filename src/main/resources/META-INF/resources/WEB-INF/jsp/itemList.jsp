@@ -102,5 +102,8 @@
     </div>
 
     <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Session Timeout Handler -->
+    <script src="/swarajtraders/js/session-timeout.js"></script>
 </body>
 </html>

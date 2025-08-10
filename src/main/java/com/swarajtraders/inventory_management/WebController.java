@@ -6,6 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.swarajtraders.inventory_management.user.entity.User;
 import com.swarajtraders.inventory_management.user.repository.UserRepository;
@@ -78,5 +80,13 @@ public class WebController {
     public String expenseEntry(Model model) {
         model.addAttribute("message", "Expense Entry - Coming Soon!");
         return "dashboard"; // Redirect back to dashboard for now
+    }
+    
+    @PostMapping("/heartbeat")
+    @ResponseBody
+    public String heartbeat() {
+        // This endpoint is used to extend the session
+        // The session will be automatically extended when this endpoint is called
+        return "OK";
     }
 }
