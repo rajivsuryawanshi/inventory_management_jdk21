@@ -1,8 +1,8 @@
 // Session Timeout Handler
 class SessionTimeoutHandler {
     constructor() {
-        this.warningTime = 4 * 60 * 1000; // 4 minutes (1 minute before timeout)
-        this.timeoutTime = 5 * 60 * 1000; // 5 minutes
+        this.warningTime = 9 * 60 * 1000; // 9 minutes (1 minute before timeout)
+        this.timeoutTime = 10 * 60 * 1000; // 10 minutes (matches server configuration)
         this.warningShown = false;
         this.warningModal = null;
         this.countdownInterval = null;
@@ -71,7 +71,7 @@ class SessionTimeoutHandler {
         if (this.warningShown) return;
         
         this.warningShown = true;
-        let countdown = 60;
+        let countdown = 60; // 60 seconds countdown
         
         // Update countdown
         this.countdownInterval = setInterval(() => {

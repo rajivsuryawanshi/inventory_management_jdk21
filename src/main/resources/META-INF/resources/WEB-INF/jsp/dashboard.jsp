@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Swaraj Traders - Dashboard</title>
 
+    <!-- Bootstrap CSS -->
+    <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Custom Modern UI Stylesheet -->
     <link rel="stylesheet" href="/swarajtraders/css/modern-ui.css">
 
@@ -151,6 +154,9 @@
             </div>
         </div>
     </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     
     <!-- Session Timeout Handler -->
     <script src="/swarajtraders/js/session-timeout.js"></script>
