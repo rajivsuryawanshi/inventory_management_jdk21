@@ -25,15 +25,16 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // Create a default user if no users exist
-        if (userRepository.count() == 0) {
+        // Check if this is a fresh installation by looking for existing data
+        boolean isFreshInstallation = userRepository.count() == 0 && itemRepository.count() == 0;
+        
+        // Create a default user only if this is a fresh installation
+        if (isFreshInstallation) {
             User defaultUser = new User("admin", passwordEncoder.encode("admin"), "ADMIN");
             userRepository.save(defaultUser);
             System.out.println("Default user created: admin/admin");
-        }
-
-        // Create sample items if no items exist
-        if (itemRepository.count() == 0) {
+            
+            // Create sample items only for fresh installation
             Item sampleItem1 = Item.builder()
                 .itemName("Sample Product 1")
                 .itemCode("SP001")
@@ -56,7 +57,9 @@ public class DataInitializer implements CommandLineRunner {
                 .build();
             itemRepository.save(sampleItem2);
 
-            System.out.println("Sample items created");
+            System.out.println("Sample items created for fresh installation");
+        } else {
+            System.out.println("Database already contains data - skipping initial data creation");
         }
     }
 }
