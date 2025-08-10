@@ -1,6 +1,8 @@
 package com.swarajtraders.inventory_management.party.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import jakarta.validation.Valid;
 
 import com.swarajtraders.inventory_management.party.entity.Party;
 import com.swarajtraders.inventory_management.party.repository.PartyRepository;
+import com.swarajtraders.inventory_management.user.entity.User;
+import com.swarajtraders.inventory_management.user.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,9 @@ public class PartyController {
 
 	@Autowired
 	private PartyRepository partyRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	// Test endpoint to verify database connectivity
 	@GetMapping("/test-db")
@@ -45,6 +52,17 @@ public class PartyController {
 	@GetMapping("/addParty")
 	public String showAddPartyForm(Model model) {
 		logger.info("Showing add party form");
+		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
 		model.addAttribute("party", new Party());
 		return "addParty"; // JSP view name
 	}
@@ -53,6 +71,17 @@ public class PartyController {
 	@GetMapping("/parties")
 	public String listParties(Model model, @RequestParam(value = "message", required = false) String message) {
 		logger.info("Listing all parties");
+		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
 		try {
 			model.addAttribute("parties", partyRepository.findAll());
 			logger.info("Found {} parties", partyRepository.count());
@@ -78,6 +107,17 @@ public class PartyController {
 		// Check for validation errors
 		if (result.hasErrors()) {
 			logger.warn("Validation errors found: {}", result.getAllErrors());
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			// Add the binding result errors to the model so JSP can display them
 			model.addAttribute("errors", result.getAllErrors());
 			
@@ -103,6 +143,17 @@ public class PartyController {
 			return "redirect:/parties";
 		} catch (Exception e) {
 			logger.error("Error saving party", e);
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			model.addAttribute("error", "Error saving party: " + e.getMessage());
 			return "addParty";
 		}
@@ -135,6 +186,16 @@ public class PartyController {
 	public String showEditPartyForm(@RequestParam("partyId") Long partyId, Model model) {
 		logger.info("Showing edit party form for ID: {}", partyId);
 		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
 		try {
 			java.util.Optional<Party> partyOptional = partyRepository.findById(partyId);
 			if (partyOptional.isPresent()) {
@@ -163,6 +224,17 @@ public class PartyController {
 		// Check for validation errors
 		if (result.hasErrors()) {
 			logger.warn("Validation errors found: {}", result.getAllErrors());
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			// Add the binding result errors to the model so JSP can display them
 			model.addAttribute("errors", result.getAllErrors());
 			model.addAttribute("isEdit", true);
@@ -186,6 +258,17 @@ public class PartyController {
 			return "redirect:/parties?message=Party updated successfully!";
 		} catch (Exception e) {
 			logger.error("Error updating party", e);
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			model.addAttribute("error", "Error updating party: " + e.getMessage());
 			model.addAttribute("isEdit", true);
 			return "editParty";

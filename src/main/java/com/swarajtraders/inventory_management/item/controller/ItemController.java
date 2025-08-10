@@ -1,6 +1,8 @@
 package com.swarajtraders.inventory_management.item.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import jakarta.validation.Valid;
 
 import com.swarajtraders.inventory_management.item.entity.Item;
 import com.swarajtraders.inventory_management.item.repository.ItemRepository;
+import com.swarajtraders.inventory_management.user.entity.User;
+import com.swarajtraders.inventory_management.user.repository.UserRepository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +30,9 @@ public class ItemController {
 
 	@Autowired
 	private ItemRepository itemRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	// Test endpoint to verify database connectivity
 	@GetMapping("/test-item-db")
@@ -45,6 +52,17 @@ public class ItemController {
 	@GetMapping("/addItem")
 	public String showAddItemForm(Model model) {
 		logger.info("Showing add item form");
+		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
 		model.addAttribute("item", new Item());
 		return "addItem"; // JSP view name
 	}
@@ -53,6 +71,17 @@ public class ItemController {
 	@GetMapping("/items")
 	public String listItems(Model model) {
 		logger.info("Listing all items");
+		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
 		try {
 			model.addAttribute("items", itemRepository.findAll());
 			logger.info("Found {} items", itemRepository.count());
@@ -73,6 +102,17 @@ public class ItemController {
 		// Check for validation errors
 		if (result.hasErrors()) {
 			logger.warn("Validation errors found: {}", result.getAllErrors());
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			// Add the binding result errors to the model so JSP can display them
 			model.addAttribute("errors", result.getAllErrors());
 			
@@ -98,6 +138,17 @@ public class ItemController {
 			return "redirect:/items";
 		} catch (Exception e) {
 			logger.error("Error saving item", e);
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
 			model.addAttribute("error", "Error saving item: " + e.getMessage());
 			return "addItem";
 		}

@@ -19,7 +19,7 @@
         <a href="/swarajtraders/dashboard" class="nav-link">
             <i class="fas fa-home"></i> Dashboard
         </a>
-        <h3><i class="fas fa-user-circle"></i> Welcome, ${user.getUserName()}</h3>
+        <h3><i class="fas fa-user-circle"></i> Welcome, ${name}</h3>
         <!-- Logout Button: Using Spring Security logout with CSRF token -->
         <form action="/swarajtraders/logout" method="post" style="display: inline;">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

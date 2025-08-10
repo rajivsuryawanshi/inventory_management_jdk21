@@ -14,7 +14,7 @@
     <!-- Navigation Bar with Home and Logout buttons -->
     <nav class="navbar">
         <a href="/swarajtraders/dashboard">Home</a>
-        <h3 class="text-center">Hello, ${user.getUserName()}</h3>
+        <h3 class="text-center">Hello, ${name}</h3>
         <!-- Logout Button: Using Spring Security logout with CSRF token -->
         <form action="/swarajtraders/logout" method="post" style="display: inline;">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
