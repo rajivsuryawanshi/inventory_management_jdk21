@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <title>Swaraj Traders - Add Item</title>
+    <title>Swaraj Traders - Edit Item</title>
 
     <!-- Bootstrap CSS -->
     <link href="webjars/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     </nav>
 
     <div class="container">
-        <h1><i class="fas fa-box-open"></i> Add New Item</h1>
+        <h1><i class="fas fa-edit"></i> Edit Item</h1>
         
         <!-- Error Message -->
         <!-- Display BindingResult errors if there are any -->
@@ -62,9 +62,12 @@
 
         <div class="form-section">
             <!-- Form starts here using regular HTML with proper field names -->
-            <form action="/swarajtraders/addItem" method="post" class="needs-validation" novalidate>
+            <form action="/swarajtraders/editItem" method="post" class="needs-validation" novalidate>
                 <!-- CSRF Token -->
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                
+                <!-- Hidden Item ID for editing -->
+                <input type="hidden" name="itemId" value="${item.itemId}"/>
                 
                 <!-- Item Name -->
                 <div class="mb-3">
@@ -194,12 +197,12 @@
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Add Item
+                    <i class="fas fa-save"></i> Update Item
                 </button>
                 
-                <!-- Back to Dashboard Button -->
-                <a href="/swarajtraders/dashboard" class="btn btn-outline-danger" style="margin-left: 1rem;">
-                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                <!-- Back to Item List Button -->
+                <a href="/swarajtraders/items" class="btn btn-outline-danger" style="margin-left: 1rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Item List
                 </a>
             </form>
         </div>

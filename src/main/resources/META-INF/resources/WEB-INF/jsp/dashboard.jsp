@@ -57,22 +57,13 @@
                 <p>Manage customer and supplier information, GST details, and contact information</p>
             </a>
 
-            <!-- Item Management Card -->
-            <a href="/swarajtraders/addItem" class="dashboard-card">
-                <div class="icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <h4>Add New Item</h4>
-                <p>Create new products with categories, pricing, and inventory details</p>
-            </a>
-
-            <!-- View Items Card -->
+            <!-- Product Management Card -->
             <a href="/swarajtraders/items" class="dashboard-card">
                 <div class="icon">
-                    <i class="fas fa-list"></i>
+                    <i class="fas fa-boxes"></i>
                 </div>
-                <h4>Inventory List</h4>
-                <p>View and manage all items in your inventory with detailed information</p>
+                <h4>Product Management</h4>
+                <p>Manage your product catalog, add new items, and view inventory details</p>
             </a>
 
             <!-- Purchase Entry Card -->

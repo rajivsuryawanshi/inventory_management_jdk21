@@ -69,7 +69,7 @@ public class ItemController {
 
 	// Show all items
 	@GetMapping("/items")
-	public String listItems(Model model) {
+	public String listItems(Model model, @RequestParam(value = "message", required = false) String message) {
 		logger.info("Listing all items");
 		
 		// Add user information to model
@@ -85,6 +85,11 @@ public class ItemController {
 		try {
 			model.addAttribute("items", itemRepository.findAll());
 			logger.info("Found {} items", itemRepository.count());
+			
+			// Add success message if present
+			if (message != null && !message.isEmpty()) {
+				model.addAttribute("message", message);
+			}
 		} catch (Exception e) {
 			logger.error("Error fetching items", e);
 			model.addAttribute("error", "Error loading items: " + e.getMessage());
@@ -173,6 +178,100 @@ public class ItemController {
 			logger.error("Error deleting item with ID: {}", itemId, e);
 			redirectAttributes.addFlashAttribute("error", "Error deleting item: " + e.getMessage());
 			return "redirect:/items";
+		}
+	}
+
+	// Show the Edit Item Form
+	@GetMapping("/editItem")
+	public String showEditItemForm(@RequestParam("itemId") Long itemId, Model model) {
+		logger.info("Showing edit item form for ID: {}", itemId);
+		
+		// Add user information to model
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		
+		User user = userRepository.findByUserName(username);
+		if (user != null) {
+			model.addAttribute("user", user);
+			model.addAttribute("name", username);
+		}
+		
+		try {
+			java.util.Optional<Item> itemOptional = itemRepository.findById(itemId);
+			if (itemOptional.isPresent()) {
+				Item item = itemOptional.get();
+				model.addAttribute("item", item);
+				model.addAttribute("isEdit", true);
+				logger.info("Found item to edit: {}", item.getItemName());
+				return "editItem"; // JSP view name
+			} else {
+				logger.warn("Item not found with ID: {}", itemId);
+				model.addAttribute("error", "Item not found!");
+				return "redirect:/items";
+			}
+		} catch (Exception e) {
+			logger.error("Error fetching item for editing", e);
+			model.addAttribute("error", "Error loading item: " + e.getMessage());
+			return "redirect:/items";
+		}
+	}
+
+	// Handle the Edit Item Form submission
+	@PostMapping("/editItem")
+	public String handleEditItem(@Valid @ModelAttribute("item") Item item, BindingResult result, Model model) {
+		logger.info("Processing edit item request for ID: {}, Name: {}", item.getItemId(), item.getItemName());
+		
+		// Check for validation errors
+		if (result.hasErrors()) {
+			logger.warn("Validation errors found: {}", result.getAllErrors());
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
+			// Add the binding result errors to the model so JSP can display them
+			model.addAttribute("errors", result.getAllErrors());
+			model.addAttribute("isEdit", true);
+			
+			// Create field-specific error mapping for better JSP display
+			java.util.Map<String, String> fieldErrors = new java.util.HashMap<>();
+			result.getFieldErrors().forEach(error -> {
+				fieldErrors.put(error.getField(), error.getDefaultMessage());
+			});
+			model.addAttribute("fieldErrors", fieldErrors);
+			
+			return "editItem";
+		}
+
+		try {
+			logger.info("Attempting to update item in database");
+			Item savedItem = itemRepository.save(item);
+			logger.info("Item updated successfully with ID: {}", savedItem.getItemId());
+			
+			// Add success message and redirect
+			return "redirect:/items?message=Item updated successfully!";
+		} catch (Exception e) {
+			logger.error("Error updating item", e);
+			
+			// Add user information to model for re-display
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String username = authentication.getName();
+			
+			User user = userRepository.findByUserName(username);
+			if (user != null) {
+				model.addAttribute("user", user);
+				model.addAttribute("name", username);
+			}
+			
+			model.addAttribute("error", "Error updating item: " + e.getMessage());
+			model.addAttribute("isEdit", true);
+			return "editItem";
 		}
 	}
 }
