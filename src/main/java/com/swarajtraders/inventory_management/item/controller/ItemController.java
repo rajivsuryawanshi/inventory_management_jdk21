@@ -11,12 +11,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import jakarta.validation.Valid;
 
 import com.swarajtraders.inventory_management.item.entity.Item;
 import com.swarajtraders.inventory_management.item.repository.ItemRepository;
+import com.swarajtraders.inventory_management.item.service.BulkUploadService;
 import com.swarajtraders.inventory_management.user.entity.User;
 import com.swarajtraders.inventory_management.user.repository.UserRepository;
 
@@ -33,6 +42,9 @@ public class ItemController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private BulkUploadService bulkUploadService;
 
 	// Test endpoint to verify database connectivity
 	@GetMapping("/test-item-db")
@@ -272,6 +284,142 @@ public class ItemController {
 			model.addAttribute("error", "Error updating item: " + e.getMessage());
 			model.addAttribute("isEdit", true);
 			return "editItem";
+		}
+	}
+
+	// Bulk Upload CSV
+	@PostMapping("/bulkUploadCSV")
+	public String bulkUploadCSV(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		logger.info("Processing CSV bulk upload");
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Please select a file to upload");
+			return "redirect:/addItem";
+		}
+		
+		if (!file.getOriginalFilename().toLowerCase().endsWith(".csv")) {
+			redirectAttributes.addFlashAttribute("error", "Please upload a CSV file");
+			return "redirect:/addItem";
+		}
+		
+		try {
+			BulkUploadService.BulkUploadResult result = bulkUploadService.processCSVFile(file);
+			
+			if (result.hasErrors()) {
+				if (result.getGeneralError() != null) {
+					redirectAttributes.addFlashAttribute("error", result.getGeneralError());
+				} else {
+					redirectAttributes.addFlashAttribute("error", "Upload completed with errors. Check the details below.");
+					redirectAttributes.addFlashAttribute("uploadErrors", result.getErrors());
+				}
+			}
+			
+			String message = String.format("Bulk upload completed! Created: %d, Updated: %d, Total: %d", 
+				result.getCreated(), result.getUpdated(), result.getTotalProcessed());
+			redirectAttributes.addFlashAttribute("message", message);
+			
+		} catch (Exception e) {
+			logger.error("Error processing CSV bulk upload", e);
+			redirectAttributes.addFlashAttribute("error", "Error processing file: " + e.getMessage());
+		}
+		
+		return "redirect:/addItem";
+	}
+
+	// Bulk Upload Excel
+	@PostMapping("/bulkUploadExcel")
+	public String bulkUploadExcel(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		logger.info("Processing Excel bulk upload");
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("error", "Please select a file to upload");
+			return "redirect:/addItem";
+		}
+		
+		String filename = file.getOriginalFilename().toLowerCase();
+		if (!filename.endsWith(".xlsx") && !filename.endsWith(".xls")) {
+			redirectAttributes.addFlashAttribute("error", "Please upload an Excel file (.xlsx or .xls)");
+			return "redirect:/addItem";
+		}
+		
+		try {
+			BulkUploadService.BulkUploadResult result = bulkUploadService.processExcelFile(file);
+			
+			if (result.hasErrors()) {
+				if (result.getGeneralError() != null) {
+					redirectAttributes.addFlashAttribute("error", result.getGeneralError());
+				} else {
+					redirectAttributes.addFlashAttribute("error", "Upload completed with errors. Check the details below.");
+					redirectAttributes.addFlashAttribute("uploadErrors", result.getErrors());
+				}
+			}
+			
+			String message = String.format("Bulk upload completed! Created: %d, Updated: %d, Total: %d", 
+				result.getCreated(), result.getUpdated(), result.getTotalProcessed());
+			redirectAttributes.addFlashAttribute("message", message);
+			
+		} catch (Exception e) {
+			logger.error("Error processing Excel bulk upload", e);
+			redirectAttributes.addFlashAttribute("error", "Error processing file: " + e.getMessage());
+		}
+		
+		return "redirect:/addItem";
+	}
+
+	// Download CSV Template
+	@GetMapping("/downloadCSVTemplate")
+	public void downloadCSVTemplate(HttpServletResponse response) throws IOException {
+		logger.info("Downloading CSV template");
+		
+		response.setContentType("text/csv");
+		response.setHeader("Content-Disposition", "attachment; filename=\"items_template.csv\"");
+		
+		try (PrintWriter writer = response.getWriter()) {
+			writer.println("ItemName,ItemCode,Category,SubCategory,WholesalePrice,PurchasePrice,SalePrice");
+			writer.println("Sample Item,ITEM001,Electronics,Smartphones,500.00,400.00,600.00");
+			writer.println("Another Item,ITEM002,Clothing,T-Shirts,25.00,20.00,30.00");
+		}
+	}
+
+	// Download Excel Template
+	@GetMapping("/downloadExcelTemplate")
+	public void downloadExcelTemplate(HttpServletResponse response) throws IOException {
+		logger.info("Downloading Excel template");
+		
+		response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		response.setHeader("Content-Disposition", "attachment; filename=\"items_template.xlsx\"");
+		
+		try (Workbook workbook = new XSSFWorkbook()) {
+			Sheet sheet = workbook.createSheet("Items");
+			
+			// Create header row
+			Row headerRow = sheet.createRow(0);
+			String[] headers = {"ItemName", "ItemCode", "Category", "SubCategory", "WholesalePrice", "PurchasePrice", "SalePrice"};
+			for (int i = 0; i < headers.length; i++) {
+				Cell cell = headerRow.createCell(i);
+				cell.setCellValue(headers[i]);
+			}
+			
+			// Create sample data rows
+			String[][] sampleData = {
+				{"Sample Item", "ITEM001", "Electronics", "Smartphones", "500.00", "400.00", "600.00"},
+				{"Another Item", "ITEM002", "Clothing", "T-Shirts", "25.00", "20.00", "30.00"}
+			};
+			
+			for (int i = 0; i < sampleData.length; i++) {
+				Row row = sheet.createRow(i + 1);
+				for (int j = 0; j < sampleData[i].length; j++) {
+					Cell cell = row.createCell(j);
+					cell.setCellValue(sampleData[i][j]);
+				}
+			}
+			
+			// Auto-size columns
+			for (int i = 0; i < headers.length; i++) {
+				sheet.autoSizeColumn(i);
+			}
+			
+			workbook.write(response.getOutputStream());
 		}
 	}
 }

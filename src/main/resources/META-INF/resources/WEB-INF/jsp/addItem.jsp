@@ -60,7 +60,74 @@
             </div>
         </c:if>
 
+        <!-- Bulk Upload Section -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div class="card-header">
+                <h3><i class="fas fa-upload"></i> Bulk Upload Items</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-file-csv"></i> CSV Upload</h5>
+                        <form action="/swarajtraders/bulkUploadCSV" method="post" enctype="multipart/form-data" style="margin-bottom: 1rem;">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <div class="mb-3">
+                                <input type="file" class="form-control" name="file" accept=".csv" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-upload"></i> Upload CSV
+                            </button>
+                            <a href="/swarajtraders/downloadCSVTemplate" class="btn btn-outline-info">
+                                <i class="fas fa-download"></i> Download Template
+                            </a>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-file-excel"></i> Excel Upload</h5>
+                        <form action="/swarajtraders/bulkUploadExcel" method="post" enctype="multipart/form-data" style="margin-bottom: 1rem;">
+                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                            <div class="mb-3">
+                                <input type="file" class="form-control" name="file" accept=".xlsx,.xls" required>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-upload"></i> Upload Excel
+                            </button>
+                            <a href="/swarajtraders/downloadExcelTemplate" class="btn btn-outline-info">
+                                <i class="fas fa-download"></i> Download Template
+                            </a>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Upload Instructions -->
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-info-circle"></i> Upload Instructions:</h6>
+                    <ul style="margin-bottom: 0;">
+                        <li>File must contain columns: ItemName, ItemCode, Category, SubCategory, WholesalePrice, PurchasePrice, SalePrice</li>
+                        <li>ItemCode is used as the unique identifier - existing items with the same ItemCode will be updated</li>
+                        <li>All prices must be greater than 0</li>
+                        <li>Required fields cannot be empty</li>
+                        <li>Download templates for the correct format</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display upload errors if any -->
+        <c:if test="${not empty uploadErrors}">
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <i class="fas fa-exclamation-triangle"></i> Upload completed with the following errors:
+                <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                    <c:forEach var="error" items="${uploadErrors}">
+                        <li>${error}</li>
+                    </c:forEach>
+                </ul>
+                <button type="button" class="btn-close" onclick="this.parentElement.remove()"></button>
+            </div>
+        </c:if>
+
         <div class="form-section">
+            <h3><i class="fas fa-plus-circle"></i> Add Single Item</h3>
             <!-- Form starts here using regular HTML with proper field names -->
             <form action="/swarajtraders/addItem" method="post" class="needs-validation" novalidate>
                 <!-- CSRF Token -->
