@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .requestMatchers("/addParty", "/parties", "/deleteParty").authenticated()
                 .requestMatchers("/addItem", "/items", "/deleteItem").authenticated()
                 .requestMatchers("/users/**").authenticated()
-                .requestMatchers("/productEntry", "/purchaseEntry", "/saleEntry", 
+                .requestMatchers("/productEntry", "/purchaseEntry", "/purchase-entry/**", "/saleEntry", 
                                "/stockDetails", "/stockAdjustment", "/expenseEntry").authenticated()
                 
                 // All other requests require authentication

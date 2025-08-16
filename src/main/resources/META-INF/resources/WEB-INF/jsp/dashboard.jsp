@@ -67,12 +67,21 @@
             </a>
 
             <!-- Purchase Entry Card -->
-            <a href="/swarajtraders/purchaseEntry" class="dashboard-card">
+            <a href="/swarajtraders/purchase-entry" class="dashboard-card">
                 <div class="icon">
                     <i class="fas fa-shopping-cart"></i>
                 </div>
                 <h4>Purchase Entry</h4>
                 <p>Record new purchases, update stock levels, and track supplier transactions</p>
+            </a>
+
+            <!-- Purchase Details Card -->
+            <a href="/swarajtraders/purchase-entry/details" class="dashboard-card">
+                <div class="icon">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <h4>Purchase Details</h4>
+                <p>View all purchase entries grouped by party with detailed analytics and filtering</p>
             </a>
 
             <!-- Sale Entry Card -->

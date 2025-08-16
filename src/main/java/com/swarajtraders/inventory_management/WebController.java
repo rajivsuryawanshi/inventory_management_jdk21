@@ -84,11 +84,8 @@ public class WebController {
         return "dashboard"; // Redirect back to dashboard for now
     }
     
-    @GetMapping("/purchaseEntry")
-    public String purchaseEntry(Model model) {
-        model.addAttribute("message", "Purchase Entry - Coming Soon!");
-        return "dashboard"; // Redirect back to dashboard for now
-    }
+    // Purchase Entry is now handled by PurchaseEntryController
+    // @GetMapping("/purchaseEntry") - removed, use /purchase-entry instead
     
     @GetMapping("/saleEntry")
     public String saleEntry(Model model) {
